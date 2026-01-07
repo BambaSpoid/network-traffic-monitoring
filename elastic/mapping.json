@@ -1,0 +1,51 @@
+{
+  "mappings": {
+    "properties": {
+      "timestamp": {
+        "type": "date"
+      },
+      "src_ip": {
+        "type": "ip"
+      },
+      "src_port": {
+        "type": "integer"
+      },
+      "dst_ip": {
+        "type": "ip"
+      },
+      "dst_port": {
+        "type": "integer"
+      },
+      "protocol": {
+        "type": "keyword"
+      },
+      "service": {
+        "type": "keyword"
+      },
+      "duration": {
+        "type": "float"
+      },
+      "orig_bytes": {
+        "type": "long"
+      },
+      "resp_bytes": {
+        "type": "long"
+      },
+      "orig_pkts": {
+        "type": "integer"
+      },
+      "resp_pkts": {
+        "type": "integer"
+      },
+      "orig_ip_bytes": {
+        "type": "long"
+      },
+      "resp_ip_bytes": {
+        "type": "long"
+      },
+      "label": {
+        "type": "keyword"
+      }
+    }
+  }
+}

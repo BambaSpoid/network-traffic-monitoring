@@ -1,0 +1,56 @@
+GET network-traffic-monitoring/_search
+{
+  "size": 0,
+  "aggs": {
+    "by_day": {
+      "date_histogram": {
+        "field": "timestamp",
+        "calendar_interval": "day"
+      },
+      "aggs": {
+        "total_orig_bytes": { "sum": { "field": "orig_bytes" } }
+      }
+    }
+  }
+}
+
+GET network-traffic-monitoring/_search
+{
+  "size": 0,
+  "aggs": {
+    "protocols": {
+      "terms": { "field": "protocol", "size": 10 }
+    }
+  }
+}
+
+GET network-traffic-monitoring/_search
+{
+  "size": 0,
+  "aggs": {
+    "top_src_ip": {
+      "terms": { "field": "src_ip", "size": 20 },
+      "aggs": {
+        "bytes": { "sum": { "field": "orig_bytes" } }
+      }
+    }
+  }
+}
+
+GET network-traffic-monitoring/_search
+{
+  "size": 0,
+  "aggs": {
+    "by_day": {
+      "date_histogram": {
+        "field": "timestamp",
+        "calendar_interval": "day"
+      },
+      "aggs": {
+        "by_label": {
+          "terms": { "field": "label", "size": 5 }
+        }
+      }
+    }
+  }
+}
