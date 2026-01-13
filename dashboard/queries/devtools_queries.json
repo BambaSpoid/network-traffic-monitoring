@@ -1,3 +1,4 @@
+--------------------------------------
 GET network-traffic-monitoring/_search
 {
   "size": 0,
@@ -14,6 +15,7 @@ GET network-traffic-monitoring/_search
   }
 }
 
+--------------------------------------
 GET network-traffic-monitoring/_search
 {
   "size": 0,
@@ -24,6 +26,7 @@ GET network-traffic-monitoring/_search
   }
 }
 
+--------------------------------------
 GET network-traffic-monitoring/_search
 {
   "size": 0,
@@ -37,6 +40,7 @@ GET network-traffic-monitoring/_search
   }
 }
 
+--------------------------------------
 GET network-traffic-monitoring/_search
 {
   "size": 0,
@@ -51,6 +55,90 @@ GET network-traffic-monitoring/_search
           "terms": { "field": "label", "size": 5 }
         }
       }
+    }
+  }
+}
+
+--------------------------------------
+// Chercher tous les flux utilisant le protocole TCP
+GET network-traffic-monitoring/_search
+{
+  "query": {
+    "term": {
+      "protocol": {
+        "value": "tcp"
+      }
+    }
+  }
+}
+
+--------------------------------------
+// Chercher tous les flux du service HTTP
+GET network-traffic-monitoring/_search
+{
+  "query": {
+    "term": {
+      "service": {
+        "value": "http"
+      }
+    }
+  }
+}
+
+--------------------------------------
+// Rechercher tous les flux où src_ip est "192.168.0.10"
+GET network-traffic-monitoring/_search
+{
+  "query": {
+    "term": {
+      "src_ip": {
+        "value": "192.168.0.10"
+      }
+    }
+  }
+}
+
+--------------------------------------
+// Requêtes combinées avec bool: Trouver les flux où : \ 
+// Le protocole est TCP \
+// Le service est HTTP \
+// La durée est supérieure à 1 seconde
+GET network-traffic-monitoring/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        { "term": { "protocol": "tcp" } },
+        { "term": { "service": "http" } }
+      ],
+      "filter": [
+        {
+          "range": {
+            "duration": { "gt": 1.0 }
+          }
+        }
+      ]
+    }
+  }
+}
+
+--------------------------------------
+// Chercher les flux anormaux (label = anomaly) entre 2023-12-01 et 2023-12-31
+GET network-traffic-monitoring/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {"term": {"label": "anomaly"}}
+      ],
+      "filter": [
+        {"range": {
+          "timestamp": {
+            "gte": "2018-05-09T00:00:00Z",
+            "lte": "2018-05-14T23:59:00Z"
+          }
+        }}
+      ]
     }
   }
 }
